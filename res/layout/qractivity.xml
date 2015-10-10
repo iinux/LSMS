@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent" 
+    android:layout_height="match_parent" 
+    android:gravity="center_horizontal" 
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/etString"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+    </EditText>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/btnQR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="扫描" />
+
+        <Button
+            android:id="@+id/btn_generateQRCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="生成" />
+
+        <Button
+            android:id="@+id/btn_decodeQRCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="解析" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/qrcode_bitmap"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvMsg"/> 
+</LinearLayout>
