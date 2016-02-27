@@ -14,7 +14,6 @@ import android.provider.CallLog.Calls;
 import android.telephony.CellLocation;
 import android.telephony.NeighboringCellInfo;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 @SuppressWarnings({ "static-access", "unused" })
 public class TelephonyManagerActivity extends Activity {
@@ -209,7 +208,7 @@ public class TelephonyManagerActivity extends Activity {
                 getContentResolver().unregisterContentObserver(newMmsContentObserver);
             }
         } catch (Exception e) {
-            Log.e(General.LogTag, "unregisterObserver fail");
+        	General.out(null, "unregisterObserver fail", LogLevel.DEBUG);
         }
     }
 }

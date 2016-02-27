@@ -17,90 +17,114 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+/*import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;*/
+import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
-	public static MainActivity ma;
 	private Button btnStop,btnCreateShortcut,btnExit,btnQR;
 	private TextView tvFrom;
 	private ScreenListener screenListener;
+	private WebView webView;
+	private boolean iUI;
 	@Override
 	public void onBackPressed() {
+		General.out(this, "我退出了哦", LogLevel.TOAST);
+		finish();
 		super.onBackPressed();
-		Toast.makeText(this, "我退出了哦", Toast.LENGTH_SHORT).show();
-		MainActivity.ma.finish();
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		screenListener.unregisterListener();
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(General.LogTag, "MainActivity onCreate,action is "+this.getIntent().getAction());
-		ma=this;
-		setContentView(R.layout.activity_main);
-		btnStop=(Button) findViewById(R.id.btnStop);
-		tvFrom=(TextView)findViewById(R.id.tvFrom);
-		btnCreateShortcut=(Button)findViewById(R.id.btnCreateShortcut);
-		btnExit=(Button)findViewById(R.id.btnExit);
-		btnQR=(Button)findViewById(R.id.btnQR);
+		General.out(MainActivity.this, "MainActivity onCreate,action is "+this.getIntent().getAction(), LogLevel.DEBUG);
+		SQLOperation mySQLOperation = new SQLOperation(this);
+		if (mySQLOperation.settingSwitch(0, "iUI")){
+			iUI = true;
+		} else {
+			iUI = false;
+		}
 		
-		btnStop.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-		        myFinish();
-			}
-		});
-		btnCreateShortcut.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-		        createShortCut();
-			}
-		});
-		btnExit.setOnClickListener(new OnClickListener() {
+		if (iUI == false) {
+			setContentView(R.layout.activity_main);
+			btnStop=(Button) findViewById(R.id.btnStop);
+			tvFrom=(TextView)findViewById(R.id.tvFrom);
+			btnCreateShortcut=(Button)findViewById(R.id.btnCreateShortcut);
+			btnExit=(Button)findViewById(R.id.btnExit);
+			btnQR=(Button)findViewById(R.id.btnQR);
 			
-			@Override
-			public void onClick(View v) {
-				MainActivity.ma.finish();
-			}
-		});
-		btnQR.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent i=new Intent(MainActivity.ma,QRActivity.class);
-				startActivity(i);
-			}
-		});
-		
-		if (MyReceiver.sbInfo!=null) tvFrom.setText(MyReceiver.sbInfo);
+			btnStop.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+			        myFinish();
+				}
+			});
+			btnCreateShortcut.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+			        createShortCut();
+				}
+			});
+			btnExit.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					MainActivity.this.finish();
+				}
+			});
+			btnQR.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent i=new Intent(MainActivity.this,QRActivity.class);
+					startActivity(i);
+				}
+			});
+			if (MyReceiver.sbInfo!=null) tvFrom.setText(MyReceiver.sbInfo);
+		}
 		
 		screenListener = new ScreenListener(this);
         screenListener.begin(new ScreenStateListener() {
             @Override
             public void onUserPresent() {
-                Log.i(General.LogTag, "onUserPresent");
+            	General.out(MainActivity.this, "onUserPresent", LogLevel.DEBUG);
 //                myFinish();
             }
             @Override
             public void onScreenOn() {
-                Log.i(General.LogTag, "onScreenOn");
+            	General.out(MainActivity.this, "onScreenOn", LogLevel.DEBUG);
                 myFinish();
             }
             @Override
             public void onScreenOff() {
-              Log.i(General.LogTag, "onScreenOff");
+            	General.out(MainActivity.this, "onScreenOff", LogLevel.DEBUG);
 //            	myFinish();
             }
         });
+        
+        if (iUI){
+	        webView = new WebView(MainActivity.this);
+			webView.getSettings().setJavaScriptEnabled(true);
+			webView.addJavascriptInterface((this), "main");
+			webView.loadUrl("file:///android_asset/index.html");
+			setContentView(webView);
+        }
 	}
 	private double latitude=0.0;
 	private double longitude =0.0;
@@ -109,11 +133,11 @@ public class MainActivity extends Activity {
 		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
 			Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			if(location != null){
-				Log.i(General.LogTag,"locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) is true,get location is not null");
+				General.out(MainActivity.this, "locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) is true,get location is not null", LogLevel.DEBUG);
 				latitude = location.getLatitude();
 				longitude = location.getLongitude();
 			}else{
-				Log.i(General.LogTag,"locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) is true,get location is null");
+				General.out(MainActivity.this, "locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) is true,get location is null", LogLevel.DEBUG);
 			}
 		}else{
 			LocationListener locationListener = new LocationListener() {
@@ -138,10 +162,10 @@ public class MainActivity extends Activity {
 				//当坐标改变时触发此函数，如果Provider传进相同的坐标，它就不会被触发 
 				@Override
 				public void onLocationChanged(Location location) {
-					if (location != null) {   
-						Log.e("Map", "Location changed : Lat: "  
-						+ location.getLatitude() + " Lng: "  
-						+ location.getLongitude());   
+					if (location != null) {  
+						General.out(MainActivity.this, "Location changed : Lat: "  
+								+ location.getLatitude() + " Lng: "  
+								+ location.getLongitude(), LogLevel.DEBUG);
 					}
 				}
 			};
@@ -177,71 +201,63 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-
-		menu.add(0,Menu.FIRST,0,"显示经纬度");
-		menu.add(0,Menu.FIRST+1,0,"开关");
-		menu.add(0,Menu.FIRST+2,0,"录音");
-		menu.add(0,Menu.FIRST+3,0,"4GSniffer开关");
-		menu.add(0,Menu.FIRST+4,0,"SSHD");
+		menu.add(0,Menu.FIRST,0,"iUI");
 		return true;
 	}
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.i(General.LogTag,"onOptionsItemSelected item id is "+item.getItemId());
+		General.out(this, "onOptionsItemSelected item id is "+item.getItemId(), LogLevel.DEBUG);
 		switch(item.getItemId())
 		{
 		  case Menu.FIRST:
-			  getTude();
+			  selectFeature(10);
 		      break;
-		  case Menu.FIRST+1:
-				final ToggleButton tbChecked=new ToggleButton(this);
-		  		tbChecked.setChecked(new SQLOperation(getApplicationContext()).lsmsSwitch(0));
-			    tbChecked.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-		            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-		            	if(isChecked){
-		            		new SQLOperation(getApplicationContext()).lsmsSwitch(1);
-		            	}else{
-		            		new SQLOperation(getApplicationContext()).lsmsSwitch(2);
-		            	}
-		            }
-	
-		        });
-		        final AlertDialog dlg = new AlertDialog.Builder(this)
-		            .setTitle("开关")
-		            .setView(tbChecked)
-		            .create();
-		        dlg.show();
-				break;
-		  case Menu.FIRST+2:
-			  Intent i=new Intent(MainActivity.ma,AudioRecordActivity.class);
-			  startActivity(i);
-			  break;
-		  case Menu.FIRST+3:
-				final ToggleButton tb_4gsniffer=new ToggleButton(this);
-		  		tb_4gsniffer.setChecked(new SQLOperation(getApplicationContext()).switch_4GSniffer(0));
-		  		tb_4gsniffer.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-	            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-	            	if(isChecked){
-	            		new SQLOperation(getApplicationContext()).switch_4GSniffer(1);
-	            	}else{
-	            		new SQLOperation(getApplicationContext()).switch_4GSniffer(2);
-	            	}
-	            }
-
-	        });
-	        final AlertDialog dlg_4gsniffer = new AlertDialog.Builder(this)
-	            .setTitle("4GSniffer开关")
-	            .setView(tb_4gsniffer)
-	            .create();
-	        dlg_4gsniffer.show();
-			break;
-		  case Menu.FIRST+4:
-			  i=new Intent(MainActivity.ma,SSHDActivity.class);
-			  startActivity(i);
-			  break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	@JavascriptInterface
+	public boolean selectFeature(int item) {
+		SQLOperation sqlOperation = new SQLOperation(getApplicationContext());
+		switch (item) {
+		case 0:
+			getTude();
+			break;
+		case 1:
+			sqlOperation.popSettingCheck("switch", this);
+			break;
+		case 2:
+			Intent i = new Intent(MainActivity.this, AudioRecordActivity.class);
+			startActivity(i);
+			break;
+		case 3:
+			sqlOperation.popSettingCheck("4gsniffer", this);
+			break;
+		case 4:
+			i = new Intent(MainActivity.this, SSHDActivity.class);
+			startActivity(i);
+			break;
+		case 5:
+			i = new Intent(MainActivity.this, CarIDActivity.class);
+			startActivity(i);
+			break;
+		case 6:
+			myFinish();
+			break;
+		case 7:
+			createShortCut();
+			break;
+		case 8:
+			onBackPressed();
+			break;
+		case 9:
+			i=new Intent(MainActivity.this,QRActivity.class);
+			startActivity(i);
+			break;
+		case 10:
+			sqlOperation.popSettingCheck("iUI", this);
+			break;
+		}
+		return true;
 	}
 	private void myFinish(){
 		if (MyReceiver.mMediaPlayer!=null&&MyReceiver.mMediaPlayer.isPlaying())   
@@ -250,7 +266,7 @@ public class MainActivity extends Activity {
 			MyReceiver.mMediaPlayer.stop();
 			MyReceiver.mMediaPlayer.release();
 			MyReceiver.mMediaPlayer=null;
-			say("LSMS",true);
+			General.out(MainActivity.this, "LSMS", LogLevel.TOAST);
 			MyReceiver.am.setStreamVolume(AudioManager.STREAM_MUSIC, MyReceiver.oldVolume, AudioManager.FLAG_PLAY_SOUND);
 		}
 	}
@@ -273,9 +289,9 @@ public class MainActivity extends Activity {
             intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, i);
             
             sendBroadcast(intent);
-            say("成功创建快捷方式！",false);
+            General.out(MainActivity.this, "成功创建快捷方式！", LogLevel.TOAST);
         }else{
-        	say("快捷方式已存在！",false);
+        	General.out(MainActivity.this, "快捷方式已存在！", LogLevel.TOAST);
         }
     }
     /**
@@ -310,16 +326,6 @@ public class MainActivity extends Activity {
      */
     private int getSdkVersion() {
         return android.os.Build.VERSION.SDK_INT;
-    }
-    private void say(String s,boolean l){
-    	Toast toast;
-    	if (l){
-    		toast = Toast.makeText(getApplicationContext(),s, Toast.LENGTH_LONG);
-    	}else{
-    		toast = Toast.makeText(getApplicationContext(),s, Toast.LENGTH_SHORT);
-    	}
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.show();
     }
 //    int count = -1;
 //    @Override

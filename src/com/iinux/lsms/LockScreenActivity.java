@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.SystemClock;
-import android.util.Log;
 
 public class LockScreenActivity extends Activity{
 	private DevicePolicyManager mDevicepolicymanager;
@@ -16,7 +15,7 @@ public class LockScreenActivity extends Activity{
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i(General.LogTag,"enter MyLcokScreen onCreate!");
+		General.out(LockScreenActivity.this, "enter MyLcokScreen onCreate!", LogLevel.DEBUG);
 		//获取设备管理服务
 		mDevicepolicymanager = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
 		mComponentname = new ComponentName(this, MyDeviceAdminMonitor.class);
@@ -33,7 +32,7 @@ public class LockScreenActivity extends Activity{
 
 		//判断是否有锁屏权限，若有则立即锁屏并结束自己，若没有则获取权限
 		if (mDevicepolicymanager.isAdminActive(mComponentname)) {
-			Log.i(General.LogTag,"MyLockScreen:isAdminActive");
+			General.out(LockScreenActivity.this, "MyLockScreen:isAdminActive", LogLevel.DEBUG);
 	        mDevicepolicymanager.lockNow();
 	        
 			for (int i = 0; i < 10; i++) {
@@ -48,7 +47,7 @@ public class LockScreenActivity extends Activity{
 
 	        this.finish();  
 	    } else {//第一次运行程序
-			Log.i(General.LogTag,"MyLockScreen:not isAdminActive");
+	    	General.out(LockScreenActivity.this, "MyLockScreen:not isAdminActive", LogLevel.DEBUG);
 	        Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);  
 	        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,mComponentname);  
 	        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"One key lock screen need to active");  

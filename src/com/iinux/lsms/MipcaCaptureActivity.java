@@ -18,7 +18,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -113,7 +112,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
 		playBeepSoundAndVibrate();
 		String resultString = result.getText();
 		if (resultString.equals("")) {
-			Toast.makeText(MipcaCaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+			General.out(MipcaCaptureActivity.this, "Scan failed!", LogLevel.TOAST);
 		}else {
 			Intent resultIntent = new Intent();
 			Bundle bundle = new Bundle();
@@ -129,7 +128,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
 		try {
 			CameraManager.get().openDriver(surfaceHolder);
 		} catch (Exception e) {
-			Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+			General.out(MipcaCaptureActivity.this, e, LogLevel.EXCEPTION);
 			return;
 		}
 		if (handler == null) {
@@ -192,7 +191,7 @@ public class MipcaCaptureActivity extends Activity implements Callback {
 				mediaPlayer.prepare();
 			} catch (Exception e) {
 				mediaPlayer = null;
-				Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+				General.out(MipcaCaptureActivity.this, e, LogLevel.EXCEPTION);
 			}
 		}
 	}

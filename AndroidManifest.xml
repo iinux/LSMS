@@ -5,25 +5,26 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+        android:minSdkVersion="5"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
- 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> 
-	<uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
- 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
- 	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
- 	<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
-	<uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -35,6 +36,7 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -42,7 +44,7 @@
             android:name=".LockScreenActivity"
             android:label="@string/app_name" >
             <intent-filter>
-				<action android:name="com.iinux.lsms.MyLockScreen"/>
+                <action android:name="com.iinux.lsms.MyLockScreen" />
             </intent-filter>
         </activity>
         <activity
@@ -62,28 +64,52 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".CarIDActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".MipcaCaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
-        <receiver android:name=".MyReceiver">
-      		<intent-filter>
-          		<action android:name="android.provider.Telephony.SMS_RECEIVED"/>
-          		<action android:name="com.android.phone.NotificationMgr.MissedCall_intent"/>
-        		<action android:name="android.intent.action.BOOT_COMPLETED" />
-        		<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-        		<category android:name="android.intent.category.LAUNCHER" />
-      		</intent-filter>
-  		</receiver>
-  		<receiver android:name=".MyDeviceAdminMonitor" android:label="@string/app_name"
-    		android:description="@string/app_name" android:permission="android.permission.BIND_DEVICE_ADMIN">
-    		<meta-data android:name="android.app.device_admin"
-        		android:resource="@xml/lock_screen_admin" />
-    		<intent-filter>
-        		<action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-    		</intent-filter>
-		</receiver>
+
+        <receiver android:name=".MyReceiver" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="com.android.phone.NotificationMgr.MissedCall_intent" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".MyDeviceAdminMonitor"
+            android:description="@string/app_name"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_DEVICE_ADMIN" >
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/lock_screen_admin" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+<!-- 
+        <service
+            android:name=".NotificationCollectorService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+        <activity
+            android:name=".NotificationCollectorActivity"
+            android:label="@string/app_name" >
+        </activity> -->
     </application>
 
 </manifest>
