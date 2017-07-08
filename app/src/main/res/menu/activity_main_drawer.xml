@@ -3,17 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/qrcode"
             android:icon="@drawable/ic_menu_camera"
             android:title="二维码" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/carId"
             android:icon="@drawable/ic_menu_gallery"
             android:title="车牌查询" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/oneKeyLock"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:title="一键锁屏" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
