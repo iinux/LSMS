@@ -12,37 +12,88 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="site.zhangqun.lanagina.QRActivity">
 
-    <Button
-        android:text="条形码"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
-        android:layout_marginTop="54dp"
-        android:id="@+id/button2"
-        android:onClick="onScanBarcode"/>
-
-    <Button
-        android:text="二维码"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
-        android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="onScanQrcode"/>
-
     <EditText
         android:id="@+id/qrText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="Name"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_alignRight="@+id/qrGenerateButton"
+        android:layout_alignEnd="@+id/qrGenerateButton" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button"
+        android:layout_alignBottom="@+id/button"
+        android:layout_marginLeft="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_toEndOf="@+id/button"
+        android:layout_toRightOf="@+id/button"
+        android:onClick="onScanBarcode"
+        android:text="条形" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/qrText"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="25dp"
+        android:onClick="onScanQrcode"
+        android:text="二维" />
+
+    <Button
+        android:id="@+id/qrGenerateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button2"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_marginLeft="17dp"
+        android:layout_marginStart="17dp"
+        android:layout_toEndOf="@+id/button2"
+        android:layout_toRightOf="@+id/button2"
+        android:onClick="onGenerateQrcode"
+        android:text="生成" />
+
+    <Button
+        android:id="@+id/resolveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_below="@+id/button2"
+        android:onClick="onResolveQrcode"
+        android:text="解析" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/qrGenerateButton"
+        android:layout_alignStart="@+id/qrGenerateButton"
+        android:layout_below="@+id/button2"
+        android:onClick="onSaveQrcode"
+        android:text="保存" />
+
+    <Button
+        android:id="@+id/loadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/button"
+        android:layout_alignRight="@+id/button"
+        android:layout_below="@+id/button"
+        android:onClick="onLoadQrcode"
+        android:text="加载" />
 
     <ImageView
         android:id="@+id/qrImageView"
@@ -53,13 +104,4 @@
         android:layout_marginTop="94dp"
         app:srcCompat="@color/zxing_status_text" />
 
-    <Button
-        android:id="@+id/qrGenerateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/qrImageView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="21dp"
-        android:onClick="onGenerateQrcode"
-        android:text="生成码" />
 </RelativeLayout>
