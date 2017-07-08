@@ -5,19 +5,19 @@
         <item
             android:id="@+id/qrcode"
             android:icon="@drawable/ic_menu_camera"
-            android:title="二维码" />
+            android:title="@string/main_menu_qrcode" />
         <item
             android:id="@+id/carId"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="车牌查询" />
+            android:title="@string/main_menu_carId" />
         <item
             android:id="@+id/oneKeyLock"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="一键锁屏" />
+            android:title="@string/main_menu_oneKeyLock" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/calculator"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="@string/main_menu_calculator" />
     </group>
 
     <item android:title="Communicate">

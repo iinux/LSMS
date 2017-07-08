@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_calc_person_id"
+        android:orderInCategory="100"
+        android:title="@string/action_calc_person_id"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_calc_bank_card"
+        android:orderInCategory="100"
+        android:title="@string/action_calc_bank_card"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_calc_imei"
+        android:orderInCategory="100"
+        android:title="@string/action_calc_imei"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_calc_luhn"
+        android:orderInCategory="100"
+        android:title="@string/action_calc_luhn"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_calc_tax"
+        android:orderInCategory="100"
+        android:title="@string/action_calc_tax"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_calc_get_wage"
+        android:orderInCategory="100"
+        android:title="@string/action_calc_get_wage"
+        app:showAsAction="never" />
+</menu>

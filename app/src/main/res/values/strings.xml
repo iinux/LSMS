@@ -5,4 +5,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="action_calc_person_id">身份证号码计算</string>
+    <string name="action_calc_bank_card">银行卡号计算</string>
+    <string name="action_calc_imei">IMEI计算</string>
+    <string name="action_calc_luhn">自定义Luhn计算</string>
+    <string name="action_calc_tax">个人所得税计算</string>
+    <string name="action_calc_get_wage">到手工资计算</string>
+
+    <string name="main_menu_qrcode">二维码</string>
+    <string name="main_menu_carId">车牌查询</string>
+    <string name="main_menu_oneKeyLock">一键锁屏</string>
+    <string name="main_menu_calculator">计算器</string>
 </resources>

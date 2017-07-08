@@ -93,8 +93,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
         } else if (id == R.id.oneKeyLock) {
             createShortCut();
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.calculator) {
+            i = new Intent(MainActivity.this, CalculatorActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
