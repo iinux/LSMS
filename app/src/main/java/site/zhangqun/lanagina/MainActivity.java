@@ -1,5 +1,6 @@
 package site.zhangqun.lanagina;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -79,11 +80,14 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent i;
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            i = new Intent(MainActivity.this, QRActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_gallery) {
-
+            i = new Intent(MainActivity.this, CarIDActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
